@@ -48,11 +48,11 @@ func NewReader(src io.Reader, options ...ReaderOption) (*Reader, error) {
 		size := fi.Size()
 		pr.Name = fi.Name()
 		pr.size = &size
-	case bufferLike:
-		size := int64(src.Len())
-		pr.size = &size
 	case bytesReaderLike:
 		size := src.Size()
+		pr.size = &size
+	case bufferLike:
+		size := int64(src.Len())
 		pr.size = &size
 	}
 
