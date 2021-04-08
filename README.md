@@ -47,3 +47,9 @@ func main() {
 	fmt.Println(buffer.String())
 }
 ```
+
+[![asciicast](https://asciinema.org/a/405916.svg)](https://asciinema.org/a/405916)
+
+## License
+
+[MIT License](https://github.com/rosylilly/pio/blob/main/LICENSE)

@@ -11,3 +11,7 @@ type fileLike interface {
 type bufferLike interface {
 	Len() int
 }
+
+type bytesReaderLike interface {
+	Size() int64
+}

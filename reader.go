@@ -10,17 +10,22 @@ var ErrNotImplemented = fmt.Errorf("Not implemented")
 
 type ReaderOption func(r *Reader) error
 
+// Reader implements the progress reporter for an io.Reader object.
 type Reader struct {
 	src     io.Reader
 	read    *int64
 	size    *int64
 	asyncCh chan ProgressInfo
 
-	Name          string
-	OnProgress    ProgressFunc
+	// Name is name of a reader.
+	Name string
+	// OnProgress is a reading progress reporter function.
+	OnProgress ProgressFunc
+	// AsyncProgress indicates running progress reporting on async.
 	AsyncProgress bool
 }
 
+// NewReader returns a new Reader with a progress reporter.
 func NewReader(src io.Reader, options ...ReaderOption) (*Reader, error) {
 	read := int64(0)
 	size := int64(0)
@@ -45,6 +50,9 @@ func NewReader(src io.Reader, options ...ReaderOption) (*Reader, error) {
 		pr.size = &size
 	case bufferLike:
 		size := int64(src.Len())
+		pr.size = &size
+	case bytesReaderLike:
+		size := src.Size()
 		pr.size = &size
 	}
 
