@@ -29,3 +29,8 @@ jobs:
             ${{ runner.os }}-go-
       - name: Run test
         run: make test
+      - uses: codecov/codecov-action@v1
+        with:
+          files: ./tmp/cover.out
+          fail_ci_if_error: true
+          verbose: true
