@@ -135,7 +135,6 @@ func (r *Reader) ReadByte() (byte, error) {
 func (r *Reader) Close() error {
 	if r.asyncCh != nil {
 		close(r.asyncCh)
-		r.asyncCh = nil
 	}
 
 	if closer, ok := r.src.(io.Closer); ok {
