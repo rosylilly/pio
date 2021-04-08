@@ -1,0 +1,31 @@
+name: test
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  golang:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Detect go version
+        id: go-version
+        run: echo "::set-output name=GO_VERSION::$(cat .go-version)"
+      - name: Setup go
+        uses: actions/setup-go@v1
+        with:
+          go-version: "${{ steps.go-version.outputs.GO_VERSION }}"
+      - name: Cache modules
+        uses: actions/cache@v2
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+      - name: Run test
+        run: make test
